@@ -28,7 +28,7 @@ ticker = companies[selected_company]
 if st.button("Predict"):
     with st.spinner("Fetching data and running predictions..."):
         # Your Tiingo API key
-        api_key = "2eb4af46e6e0d158d2810fefff1083609882f0f1"
+        api_key = "<ADD YOUR API KEY>"
 
         # Endpoint for daily prices
         url = f"https://api.tiingo.com/tiingo/daily/{ticker}/prices"
@@ -46,7 +46,7 @@ if st.button("Predict"):
         df1 = pd.DataFrame(data)
 
         # Alpha Vantage News + Sentiment
-        AV_API_KEY = '403RFMG47B438Z50'  # Replace with your free key
+        AV_API_KEY = '<ADD YOUR API KEY>'  # Replace with your free key
 
         def fetch_news_sentiment(ticker, time_from, time_to, limit=1000):
             url = f'https://www.alphavantage.co/query?function=NEWS_SENTIMENT&tickers={ticker}&time_from={time_from}&time_to={time_to}&limit={limit}&apikey={AV_API_KEY}'
@@ -369,4 +369,5 @@ if st.button("Predict"):
         ax5.tick_params(rotation=45)
         ax5.grid(True)
         fig5.tight_layout()
+
         st.pyplot(fig5)
