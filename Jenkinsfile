@@ -1,31 +1,23 @@
 pipeline {
     agent any
+
     stages {
         stage('Build & Setup') {
             steps {
                 echo 'Preparing environment for Stock Prediction...'
+                // This pulls your code from GitHub
+                checkout scm
             }
         }
         stage('Model Training') {
             steps {
                 echo 'Training model on historical data...'
-            }
-        }
-        stage('Results') {
-            steps {
-                echo 'Displaying prediction accuracy...'
-            }
-        }
-	stages {
-        stage('Checkout') {
-            steps {
-                // This pulls your code from GitHub
-                checkout scm
+                // Note: In a real MLOps pipeline, you would run 'python train.py' here
             }
         }
         stage('Deploy Streamlit App') {
             steps {
-                // 'bat' is for Windows. If you were on Linux, you'd use 'sh'
+                echo 'Deploying to Docker container...'
                 bat '''
                     docker build -t stock-prediction-app .
                     docker stop stock-container || true
@@ -34,6 +26,5 @@ pipeline {
                 '''
             }
         }
-    }
     }
 }
