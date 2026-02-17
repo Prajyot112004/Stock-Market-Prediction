@@ -8,3 +8,5 @@ matplotlib
 tensorflow
 keras
 yfinance
+selenium
+webdriver-manager
