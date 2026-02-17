@@ -26,5 +26,11 @@ pipeline {
                 '''
             }
         }
+	stage('Selenium Testing') {
+    	     steps {
+                 echo 'Running UI Tests...'
+                 bat 'python test_app.py'
+             }
+        }
     }
 }
