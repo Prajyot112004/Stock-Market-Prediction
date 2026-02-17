@@ -24,7 +24,7 @@ pipeline {
                 bat 'ping 127.0.0.1 -n 20 > nul' 
                 
                 echo 'Force-installing missing parts...'
-                # This tells the robot to install the missing piece right now
+                // This tells the robot to install the missing piece right now
                 bat 'python -m pip install typing-extensions selenium webdriver-manager'
                 
                 echo 'Running Selenium Regression Test...'
