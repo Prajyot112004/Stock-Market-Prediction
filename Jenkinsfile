@@ -29,7 +29,7 @@ pipeline {
 	stage('Selenium Testing') {
     	     steps {
                  echo 'Running UI Tests...'
-                 bat 'python test_app.py'
+                 bat 'python test_login.py'
              }
         }
     }
