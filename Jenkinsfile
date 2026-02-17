@@ -5,14 +5,12 @@ pipeline {
         stage('Build & Setup') {
             steps {
                 echo 'Preparing environment for Stock Prediction...'
-                // This pulls your code from GitHub
                 checkout scm
             }
         }
         stage('Model Training') {
             steps {
                 echo 'Training model on historical data...'
-                // Note: In a real MLOps pipeline, you would run 'python train.py' here
             }
         }
         stage('Deploy Streamlit App') {
@@ -26,11 +24,16 @@ pipeline {
                 '''
             }
         }
-	stage('Selenium Testing') {
-    	     steps {
-                 echo 'Running UI Tests...'
-                 bat 'python test_login.py'
-             }
+        stage('Selenium Testing') {
+            steps {
+                echo 'Waiting for app to initialize...'
+                // Wait for 15 seconds to ensure Streamlit is fully loaded
+                bat 'timeout /t 15 /nobreak' 
+                
+                echo 'Running UI Tests...'
+                // Use -u to make sure you see the "Passed" message in logs
+                bat 'python -u test_login.py'
+            }
         }
     }
 }
