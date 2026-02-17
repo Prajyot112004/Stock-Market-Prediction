@@ -20,9 +20,12 @@ pipeline {
         }
         stage('Selenium Testing') {
             steps {
-                echo 'Waiting for app...'
-                bat 'timeout /t 15' 
+                echo 'Waiting for app to initialize...'
+                // This is the Windows way to wait without crashing Jenkins
+                bat 'ping 127.0.0.1 -n 20 > nul' 
+                
                 echo 'Running Selenium Regression Test...'
+                // Use the full path or just 'python' if it's in your PATH
                 bat 'python -u test_login.py'
             }
         }
