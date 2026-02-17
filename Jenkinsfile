@@ -21,11 +21,13 @@ pipeline {
         stage('Selenium Testing') {
             steps {
                 echo 'Waiting for app to initialize...'
-                // This is the Windows way to wait without crashing Jenkins
                 bat 'ping 127.0.0.1 -n 20 > nul' 
                 
+                echo 'Force-installing missing parts...'
+                # This tells the robot to install the missing piece right now
+                bat 'python -m pip install typing-extensions selenium webdriver-manager'
+                
                 echo 'Running Selenium Regression Test...'
-                // Use the full path or just 'python' if it's in your PATH
                 bat 'python -u test_login.py'
             }
         }
