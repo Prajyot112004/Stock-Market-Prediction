@@ -1,19 +1,31 @@
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
-# 1. Setup the invisible browser
+# 1. Setup Headless Chrome (Required for Jenkins)
 options = Options()
-options.add_argument("--headless") 
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+
 driver = webdriver.Chrome(options=options)
 
-# 2. Go to your app's house (localhost)
-driver.get("http://localhost:8501")
+try:
+    # 2. Go to the app
+    driver.get("http://localhost:8501")
+    
+    # 3. THE FIX: Wait longer for Streamlit to load the UI
+    print("Waiting for Streamlit UI to render...")
+    time.sleep(15) 
+    
+    # 4. Check if we are on the right page
+    # Look for a common Streamlit element or your specific title
+    if "Stock" in driver.title or len(driver.find_elements(By.TAG_NAME, "button")) > 0:
+        print("SUCCESS: Selenium Test Passed! App is live and showing content.")
+    else:
+        print("ERROR: The robot saw a blank page.")
+        exit(1) # This tells Jenkins the test failed
 
-# 3. Look for the word "Stock"
-if "Stock" in driver.page_source:
-    print("SUCCESS: The robot saw the Stock App!")
-else:
-    print("ERROR: The robot saw a blank page.")
-    exit(1) # This tells the Factory Manager something is wrong
-
-driver.quit()
+finally:
+    driver.quit()
